@@ -1,0 +1,38 @@
+exports.handler = function(context, event, callback) {
+	let twiml = new Twilio.twiml.VoiceResponse();
+	
+	twiml.say('Welcome to Westgate Chapel\'s Dial a sermon service.  Please hold whilst the latest sermon is found')
+	let Parser = require('rss-parser');
+	let parser = new Parser();
+	
+	const url = 'https://www.westgatechapel.org.uk/wp-content/uploads/podcast.xml'
+	
+	parser.parseURL(url, function(err, feed){
+	    if (err){
+	        twiml.say('There has been an error finding the sermon');
+	        callback(err, twiml);
+	        twiml.hangup();
+	    }
+	    
+	    const sermons = feed.items;
+	    if (feed === undefined || sermons === undefined || sermons.length === 0) {
+            twiml.say('Sorry an error occurred finding the sermon');
+    	    callback(null, twiml);
+    	    twiml.hangup();
+        }
+	    
+	    const sermonToUse = sermons[0]
+	    
+	    if (sermon === undefined) {
+                twiml.say('Sorry an error occurred finding the sermon');
+    	        callback(null, twiml);
+    	        twiml.hangup();
+        }
+        
+        twiml.play(sermon.enclosure.url);
+    	twiml.hangup();
+    	callback(null, twiml)
+        
+	});
+	
+};
