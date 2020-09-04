@@ -1,0 +1,8 @@
+
+// The inital code to run the phone number.  I have no clue what language it uses.
+exports.handler = function(context, event, callback) {
+	let twiml = new Twilio.twiml.VoiceResponse();
+	twiml.play('https://cdn.westgatechapel.org.uk/wp-content/uploads/2018/01/romans-8v22-27-sunday-30th-august-2020.mp3');
+	twiml.hangup();
+	callback(null, twiml);
+};
