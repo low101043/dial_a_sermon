@@ -21,15 +21,26 @@ exports.handler = function(context, event, callback) {
     	    twiml.hangup();
         }
 	    
-	    const sermonToUse = sermons[0]
+	    const sermonToUse = sermons[0];
 	    
-	    if (sermon === undefined) {
+	    if (sermonToUse === undefined) {
                 twiml.say('Sorry an error occurred finding the sermon');
     	        callback(null, twiml);
     	        twiml.hangup();
         }
         
-        twiml.play(sermon.enclosure.url);
+        twiml.say("");
+        const date = sermonToUse.pubDate;
+
+        var split = date.split(" ");
+        var day = split[0].split(",");
+        console.log(day);
+
+        const play = 'You are going to listen to the sermon from ' + day[0] + 'day ' + split[1] + " " + split[2] + " " + split[3];
+        console.log(play);
+        twiml.say(play);
+        
+        twiml.play(sermonToUse.enclosure.url);
     	twiml.hangup();
     	callback(null, twiml)
         
